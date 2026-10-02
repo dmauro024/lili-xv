@@ -101,9 +101,25 @@ button.play{border:0;cursor:pointer;font:inherit}
 .ytbox{position:fixed;left:-10000px;top:0;width:240px;height:135px;overflow:hidden;pointer-events:none}.ytbox iframe{width:100%;height:100%;display:block;border:0}
 .mbtn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9;width:52px;height:52px;border-radius:50%;border:0;background:var(--btn);color:#fff;box-shadow:0 8px 22px var(--shadow);display:none;place-items:center;cursor:pointer}
 .mbtn.show{display:grid}.mbtn svg{width:24px;height:24px}
+
+.wa-list{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:2px}
+.wa-list .btn{margin-top:0;min-width:250px;text-align:center}
+.wa-list .num{user-select:auto;font-weight:500;letter-spacing:.08em}
+.opener{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;background:linear-gradient(180deg,#d6e4f6,#f3f7fd);color:var(--ink);cursor:pointer;transition:opacity .6s ease,visibility .6s}
+.opener.gone{opacity:0;visibility:hidden}
+.opener .o-mis{margin:0;font-family:var(--display2);font-size:22px;letter-spacing:.06em}
+.opener .o-name{margin:0;font-family:var(--script);font-size:96px;line-height:1;color:var(--title)}
+.opener .o-btn{margin-top:18px;padding:14px 30px;border-radius:999px;background:var(--btn);color:#fff;font-family:var(--display2);letter-spacing:.14em;text-transform:uppercase;font-size:14px;border:0;box-shadow:0 8px 22px var(--shadow);cursor:pointer}
+.opener .o-hint{margin:0;font-size:13px;opacity:.75}
 </style>
 
 </head><body>
+<div class="opener" id="opener" role="dialog" aria-label="Abrir invitación">
+  <p class="o-mis">Mis XV Años</p>
+  <p class="o-name">Lili</p>
+  <button class="o-btn" id="openBtn" type="button">Abrir invitación</button>
+  <p class="o-hint">♪ con música</p>
+</div>
 <header class="top"><span class="top-name">Mis XV · Lili</span><span class="top-date">24 · 10 · 2026</span></header>
 <main class="wrap">
 
@@ -180,8 +196,11 @@ button.play{border:0;cursor:pointer;font:inherit}
 <section class="sec" id="confirmar"><i class="dk tl" aria-hidden="true"></i><i class="dk tr" aria-hidden="true"></i><i class="dk r" aria-hidden="true"></i><i class="dk bl" aria-hidden="true"></i><i class="dk br" aria-hidden="true"></i><p class="motif"><span>Mis</span><b>15</b><span>Años</span></p>
   <h2 class="title">Confirma tu asistencia</h2>
   <p class="text">Tu presencia es muy importante para mí.</p>
-  <a class="btn" href="https://wa.me/573138668382?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20los%20XV%20a%C3%B1os%20de%20Lili" target="_blank" rel="noopener">Confirmar por WhatsApp</a>
-  <p class="text small">WhatsApp: <span class="num">313 866 8382</span></p>
+  <p class="text small">Confirma por WhatsApp a cualquiera de estos números:</p>
+  <div class="wa-list">
+    <a class="btn" href="https://wa.me/573138668382?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20los%20XV%20a%C3%B1os%20de%20Lili" target="_blank" rel="noopener">WhatsApp · <span class="num">313 866 8382</span></a>
+    <a class="btn" href="https://wa.me/573153550286?text=Hola%2C%20confirmo%20mi%20asistencia%20a%20los%20XV%20a%C3%B1os%20de%20Lili" target="_blank" rel="noopener">WhatsApp · <span class="num">315 355 0286</span></a>
+  </div>
   <p class="sign">¡Te espero!</p>
 </section>
 
@@ -213,9 +232,17 @@ button.play{border:0;cursor:pointer;font:inherit}
 <script>
 var player,ready=false,want=false,playing=false;
 var btn=document.getElementById('playBtn'),st=document.getElementById('songState'),mb=document.getElementById('mBtn');
-function onYouTubeIframeAPIReady(){player=new YT.Player('yt',{width:240,height:135,videoId:'cYOV5i85fsw',playerVars:{playsinline:1,controls:1,rel:0,modestbranding:1},events:{onReady:function(){ready=true;if(want)player.playVideo();},onStateChange:function(e){playing=(e.data===1);btn.classList.toggle('on',playing);btn.setAttribute('aria-pressed',playing);st.textContent=playing?'Sonando: oh to be loved · JVKE':(e.data===3?'Cargando…':'Toca para escuchar');if(playing)mb.classList.add('show');if(e.data===0){player.seekTo(0);player.playVideo();}},onError:function(){st.textContent='No se pudo cargar la canción';}}});}
+function onYouTubeIframeAPIReady(){player=new YT.Player('yt',{width:240,height:135,videoId:'cYOV5i85fsw',playerVars:{playsinline:1,controls:1,rel:0,modestbranding:1},events:{onReady:function(){ready=true;if(want){player.playVideo();}else{try{player.playVideo();}catch(e){}}},onStateChange:function(e){playing=(e.data===1);btn.classList.toggle('on',playing);btn.setAttribute('aria-pressed',playing);st.textContent=playing?'Sonando: oh to be loved · JVKE':(e.data===3?'Cargando…':'Toca para escuchar');if(playing)mb.classList.add('show');if(e.data===0){player.seekTo(0);player.playVideo();}},onError:function(){st.textContent='No se pudo cargar la canción';}}});}
 function toggle(){document.getElementById('ytbox').classList.add('show');if(!ready){want=true;st.textContent='Cargando…';return;}if(playing)player.pauseVideo();else player.playVideo();}
 btn.addEventListener('click',toggle);mb.addEventListener('click',toggle);
+</script>
+<script>
+(function(){
+  var op=document.getElementById('opener');
+  function openInv(){ if(op.classList.contains('gone')) return; op.classList.add('gone'); want=true; if(ready && !playing){ player.playVideo(); } mb.classList.add('show'); }
+  op.addEventListener('click',openInv);
+  document.getElementById('openBtn').addEventListener('click',function(e){e.stopPropagation();openInv();});
+})();
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 </body></html>
