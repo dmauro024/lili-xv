@@ -98,7 +98,7 @@ button.play{border:0;cursor:pointer;font:inherit}
 .play .i-pause{display:none}.play.on .i-play{display:none}.play.on .i-pause{display:block}
 .play .i-pause{margin-left:0}
 .song-state{margin:0;font-size:14px;color:var(--soft)}
-.ytbox{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;left:0;bottom:0}
+.ytbox{width:240px;max-width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;box-shadow:0 8px 22px var(--shadow);display:none}.ytbox.show{display:block}.ytbox iframe{width:100%;height:100%;display:block;border:0}
 .mbtn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9;width:52px;height:52px;border-radius:50%;border:0;background:var(--btn);color:#fff;box-shadow:0 8px 22px var(--shadow);display:none;place-items:center;cursor:pointer}
 .mbtn.show{display:grid}.mbtn svg{width:24px;height:24px}
 </style>
@@ -131,7 +131,7 @@ button.play{border:0;cursor:pointer;font:inherit}
     <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>
   </button>
   <p class="song-state" id="songState" aria-live="polite">Toca para escuchar</p>
-  <div class="ytbox" aria-hidden="true"><div id="yt"></div></div>
+  <div class="ytbox" id="ytbox"><div id="yt"></div></div>
   <p class="song"><em>oh to be loved</em> · JVKE</p>
 </section>
 
@@ -213,8 +213,8 @@ button.play{border:0;cursor:pointer;font:inherit}
 <script>
 var player,ready=false,want=false,playing=false;
 var btn=document.getElementById('playBtn'),st=document.getElementById('songState'),mb=document.getElementById('mBtn');
-function onYouTubeIframeAPIReady(){player=new YT.Player('yt',{width:1,height:1,videoId:'cYOV5i85fsw',playerVars:{playsinline:1,controls:0,rel:0},events:{onReady:function(){ready=true;if(want)player.playVideo();},onStateChange:function(e){playing=(e.data===1);btn.classList.toggle('on',playing);btn.setAttribute('aria-pressed',playing);st.textContent=playing?'Sonando: oh to be loved · JVKE':(e.data===3?'Cargando…':'Toca para escuchar');if(playing)mb.classList.add('show');if(e.data===0){player.seekTo(0);player.playVideo();}},onError:function(){st.textContent='No se pudo cargar la canción';}}});}
-function toggle(){if(!ready){want=true;st.textContent='Cargando…';return;}if(playing)player.pauseVideo();else player.playVideo();}
+function onYouTubeIframeAPIReady(){player=new YT.Player('yt',{width:240,height:135,videoId:'cYOV5i85fsw',playerVars:{playsinline:1,controls:1,rel:0,modestbranding:1},events:{onReady:function(){ready=true;if(want)player.playVideo();},onStateChange:function(e){playing=(e.data===1);btn.classList.toggle('on',playing);btn.setAttribute('aria-pressed',playing);st.textContent=playing?'Sonando: oh to be loved · JVKE':(e.data===3?'Cargando…':'Toca para escuchar');if(playing)mb.classList.add('show');if(e.data===0){player.seekTo(0);player.playVideo();}},onError:function(){st.textContent='No se pudo cargar la canción';}}});}
+function toggle(){document.getElementById('ytbox').classList.add('show');if(!ready){want=true;st.textContent='Cargando…';return;}if(playing)player.pauseVideo();else player.playVideo();}
 btn.addEventListener('click',toggle);mb.addEventListener('click',toggle);
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
