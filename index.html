@@ -51,7 +51,7 @@ body{margin:0;background:var(--page);color:var(--ink);font-family:var(--body);fo
 .dress div{padding:14px 8px;border:1px solid var(--line);border-radius:var(--r)}
 .label{margin:0;font-family:var(--display2);text-transform:uppercase;letter-spacing:.16em;font-size:13px;color:var(--soft)}
 .value{margin:0;font-family:var(--display2);font-size:24px}
-.swatch{width:54px;height:54px;border-radius:50%;background:#1f5fbf;border:4px solid var(--swatch-ring);box-shadow:0 6px 16px var(--shadow)}
+.swatch{width:54px;height:54px;border-radius:50%;background:#7fb0e8;border:4px solid var(--swatch-ring);box-shadow:0 6px 16px var(--shadow)}
 .envelope{width:72px;color:var(--title)}
 .num{font-variant-numeric:tabular-nums;user-select:all;font-weight:600}
 .deco{position:absolute;color:var(--bf);opacity:.55;pointer-events:none}
@@ -98,7 +98,7 @@ button.play{border:0;cursor:pointer;font:inherit}
 .play .i-pause{display:none}.play.on .i-play{display:none}.play.on .i-pause{display:block}
 .play .i-pause{margin-left:0}
 .song-state{margin:0;font-size:14px;color:var(--soft)}
-.ytbox{width:240px;max-width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;box-shadow:0 8px 22px var(--shadow);display:block}.ytbox iframe{width:100%;height:100%;display:block;border:0}
+.ytbox{position:fixed;left:-10000px;top:0;width:240px;height:135px;overflow:hidden;pointer-events:none}.ytbox iframe{width:100%;height:100%;display:block;border:0}
 .mbtn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9;width:52px;height:52px;border-radius:50%;border:0;background:var(--btn);color:#fff;box-shadow:0 8px 22px var(--shadow);display:none;place-items:center;cursor:pointer}
 .mbtn.show{display:grid}.mbtn svg{width:24px;height:24px}
 </style>
@@ -119,7 +119,7 @@ button.play{border:0;cursor:pointer;font:inherit}
 <section class="sec" id="bienvenidos"><i class="dk tl" aria-hidden="true"></i><i class="dk tr" aria-hidden="true"></i><i class="dk r" aria-hidden="true"></i><i class="dk bl" aria-hidden="true"></i><i class="dk br" aria-hidden="true"></i><p class="motif"><span>Mis</span><b>15</b><span>Años</span></p>
   <h2 class="title">Bienvenidos</h2>
   <p class="text">Llegó el momento de celebrar mis 15 ✨<br>Quiero que compartamos este día tan especial.</p>
-  <p class="text">¡Te espero para celebrar juntos este día tan especial!</p>
+  <p class="text">¡Te espero!</p>
   <p class="sign">Lili</p>
 </section>
 
@@ -131,7 +131,7 @@ button.play{border:0;cursor:pointer;font:inherit}
     <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>
   </button>
   <p class="song-state" id="songState" aria-live="polite">Toca para escuchar</p>
-  <div class="ytbox" id="ytbox"><div id="yt"></div></div>
+  <div class="ytbox" id="ytbox" aria-hidden="true"><div id="yt"></div></div>
   <p class="song"><em>oh to be loved</em> · JVKE</p>
 </section>
 
